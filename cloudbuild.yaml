@@ -16,13 +16,7 @@ steps:
         chmod +x terraform
         mv terraform /usr/local/bin/
         
-  # Step 3: Change to the Terraform directory.
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        cd terraform
+  
         
   # Step 4: Apply Terraform configuration.
   - name: 'hashicorp/terraform:latest'
