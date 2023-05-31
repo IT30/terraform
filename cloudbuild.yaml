@@ -21,7 +21,6 @@ steps:
     entrypoint: 'terraform'
     args:
       - 'init'
-      - '-auto-approve'
         
   # Step 4: Apply Terraform configuration.
   - name: 'hashicorp/terraform:latest'
