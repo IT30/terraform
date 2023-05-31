@@ -2,16 +2,19 @@ steps:
   # Step 1: Checkout the source code from the repository.
   - name: 'gcr.io/cloud-builders/git'
     args: ['clone', '--depth=1', '--recursive', 'https://github.com/IT30/terraform']
-    
+  
   # Step 2: Set up the Terraform environment.
   - name: 'hashicorp/terraform:latest'
-    entrypoint: 'bash'
+    entrypoint: 'sh'
     args:
       - '-c'
       - |
-        curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-        echo "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/hashicorp.list
-        apt-get update && apt-get install -y terraform
+        apk add --no-cache curl
+        curl -fsSL https://releases.hashicorp.com/terraform/1.0.3/terraform_1.0.3_linux_amd64.zip -o terraform.zip
+        unzip terraform.zip
+        rm terraform.zip
+        chmod +x terraform
+        mv terraform /usr/local/bin/
         
   # Step 3: Change to the Terraform directory.
   - name: 'gcr.io/cloud-builders/gcloud'
