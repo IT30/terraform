@@ -15,7 +15,7 @@ steps:
     args:
       - '-c'
       - |
-        cd IT30/terraform
+        cd IT30/terraform/
         
   # Step 4: Apply Terraform configuration.
   - name: 'hashicorp/terraform:latest'
