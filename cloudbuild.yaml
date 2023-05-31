@@ -1,3 +1,25 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['compose', 'up', '--build', '-d']
+  # Step 2: Set up the Terraform environment.
+  - name: 'hashicorp/terraform:latest'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+        echo "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/hashicorp.list
+        apt-get update && apt-get install -y terraform
+        
+  # Step 3: Change to the Terraform directory.
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cd IT30/terraform
+        
+  # Step 4: Apply Terraform configuration.
+  - name: 'hashicorp/terraform:latest'
+    entrypoint: 'terraform'
+    args:
+      - 'apply'
+      - '-auto-approve'
